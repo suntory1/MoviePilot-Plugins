@@ -19,9 +19,9 @@ from app.schemas import NotificationType
 from app.utils.string import StringUtils
 
 
-class TorrentTransfer(_PluginBase):
+class CustomTorrentTransfer(_PluginBase):
     # 插件名称
-    plugin_name = "自动转移做种"
+    plugin_name = "自定义自动转移做种"
     # 插件描述
     plugin_desc = "定期转移下载器中的做种任务到另一个下载器。"
     # 插件图标
@@ -33,9 +33,9 @@ class TorrentTransfer(_PluginBase):
     # 作者主页
     author_url = "https://github.com/jxxghp"
     # 插件配置项ID前缀
-    plugin_config_prefix = "torrenttransfer_"
+    plugin_config_prefix = "custom_torrenttransfer_"
     # 加载顺序
-    plugin_order = 18
+    plugin_order = 1
     # 可使用的用户级别
     auth_level = 2
 
@@ -110,9 +110,9 @@ class TorrentTransfer(_PluginBase):
             # 定时服务
             self._scheduler = BackgroundScheduler(timezone=settings.TZ)
 
-            if self._autostart:
+            # if self._autostart:
                 # 追加种子校验服务
-                self._scheduler.add_job(self.check_recheck, 'interval', minutes=3)
+                # self._scheduler.add_job(self.check_recheck, 'interval', minutes=3)
 
             if self._onlyonce:
                 logger.info(f"转移做种服务启动，立即运行一次")

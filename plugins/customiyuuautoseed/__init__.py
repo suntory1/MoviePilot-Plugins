@@ -19,16 +19,16 @@ from app.log import logger
 from app.modules.qbittorrent import Qbittorrent
 from app.modules.transmission import Transmission
 from app.plugins import _PluginBase
-from app.plugins.iyuuautoseed.iyuu_helper import IyuuHelper
+from app.plugins.customiyuuautoseed.iyuu_helper import IyuuHelper
 from app.schemas import NotificationType
 from app.schemas.types import EventType
 from app.utils.http import RequestUtils
 from app.utils.string import StringUtils
 
 
-class IYUUAutoSeed(_PluginBase):
+class CustomIYUUAutoSeed(_PluginBase):
     # 插件名称
-    plugin_name = "IYUU自动辅种"
+    plugin_name = "自定义IYUU自动辅种"
     # 插件描述
     plugin_desc = "基于IYUU官方Api实现自动辅种。"
     # 插件图标
@@ -40,9 +40,9 @@ class IYUUAutoSeed(_PluginBase):
     # 作者主页
     author_url = "https://github.com/jxxghp"
     # 插件配置项ID前缀
-    plugin_config_prefix = "iyuuautoseed_"
+    plugin_config_prefix = "custom_iyuuautoseed_"
     # 加载顺序
-    plugin_order = 17
+    plugin_order = 1
     # 可使用的用户级别
     auth_level = 2
 
@@ -148,7 +148,7 @@ class IYUUAutoSeed(_PluginBase):
                 self._onlyonce = False
                 if self._scheduler.get_jobs():
                     # 追加种子校验服务
-                    self._scheduler.add_job(self.check_recheck, 'interval', minutes=3)
+                    # self._scheduler.add_job(self.check_recheck, 'interval', minutes=3)
                     # 启动服务
                     self._scheduler.print_jobs()
                     self._scheduler.start()
@@ -184,7 +184,7 @@ class IYUUAutoSeed(_PluginBase):
         """
         if self.get_state():
             return [{
-                "id": "IYUUAutoSeed",
+                "id": "CustomIYUUAutoSeed",
                 "name": "IYUU自动辅种服务",
                 "trigger": CronTrigger.from_crontab(self._cron),
                 "func": self.auto_seed,
